@@ -20,7 +20,7 @@ const App = () => {
 
     return (
         <NavigationContainer>
-            <Stack.Navigator initialRouteName='Dashboard'>
+            <Stack.Navigator initialRouteName='GetStarted'>
                 <Stack.Screen 
                     name="GetStarted"
                     component={LandingPage}

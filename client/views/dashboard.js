@@ -5,8 +5,10 @@
 */}
 
 import { StyleSheet, View, Image, Text, TouchableOpacity } from 'react-native';
+import { FAB } from "@react-native-material/core";
+import Icon from "@expo/vector-icons/MaterialCommunityIcons";
 
-function Dashboard(){
+const Dashboard = () => {
     return (
     <View style={styles.mainView}>
         <View style={styles.topNavBar}>
@@ -37,6 +39,25 @@ function Dashboard(){
             style={styles.image} 
             />
         </View>
+
+        {/* Current prescription notes*/}
+        <View style={styles.prescription}>
+            <Text style={styles.textHeader}>Prescription Notes</Text>
+
+        </View>
+
+        {/* Added floating button */}
+        <View style={styles.fabView}>
+            <FAB icon={props => <Icon 
+                name="plus" {...props} 
+                color={colors.white}
+                />
+            } 
+            color={colors.primary}
+            />
+        </View>
+        
+
     </View>
     );
 };
@@ -118,6 +139,20 @@ const styles = StyleSheet.create({
         fontSize: 11,
         color: colors.white,
     },
+
+    prescription: {
+        paddingHorizontal: '5%',
+    },
+
+    fabView: {
+        alignItems: 'center',
+        position: 'absolute',
+        width: 50,
+        height: 50,
+        bottom: 50,
+        right: 20,
+
+    }
 
 })
 
