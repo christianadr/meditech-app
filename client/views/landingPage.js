@@ -4,9 +4,15 @@
     welcoming message
 */}
 
-import { StyleSheet, View, Image, Text, Button, TouchableOpacity, ImageBackground } from 'react-native';
+import { StyleSheet, View, Image, Text, TouchableOpacity } from 'react-native';
 
-function LandingPage() {
+function LandingPage ({navigation}) {
+
+    navigateToDashboard = () => {
+        // console.log("Get Started Clicked..."); // debug purposes
+        navigation.navigate("Dashboard")
+    }
+
     return (
 
         // View component for Landing image
@@ -24,7 +30,7 @@ function LandingPage() {
             </View>
 
             {/* Button to navigate to Dashboard */}
-            <TouchableOpacity onPress={null} style={styles.buttonStart}>
+            <TouchableOpacity onPress={(this.navigateToDashboard)} style={styles.buttonStart}>
                 <View>
                     <Image source={require("client/assets/images/button.png")} style={styles.buttonContent}/>
                     <Text style={styles.buttonText}>Get Started</Text>
@@ -47,7 +53,7 @@ const styles = StyleSheet.create({
     },
 
     image: {
-        top: "-1%", 
+        top: "-2%", 
         // right: "5%",
     },
 
@@ -76,7 +82,6 @@ const styles = StyleSheet.create({
         alignSelf: 'center',
         color: colors.white,
         fontSize: 20,
-        // fontWeight: 'bold',
         position: 'absolute',
         bottom: 20,
     }
