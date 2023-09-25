@@ -2,8 +2,8 @@ import * as React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { useFonts } from 'expo-font';
-import LandingPage from './views/landingPage';
-import Dashboard from './views/dashboard';
+import LandingPage from './views/GetStarted';
+import Dashboard from './views/Dashboard';
 
 const Stack = createNativeStackNavigator();
 
@@ -35,22 +35,5 @@ const App = () => {
         </NavigationContainer>
     )
 }
-
-// export default function App() {
-
-//   const [loaded] = useFonts({
-//     "Inter-Bold": require('./assets/fonts/Inter-Bold.ttf'),
-//   });
-
-//   if (!loaded) {
-//     return null;
-//   }
-
-  
-
-//   return (
-//     <LandingPage />
-//   );
-// }
 
 export default App

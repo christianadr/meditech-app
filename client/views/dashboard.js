@@ -5,7 +5,7 @@
 */}
 
 import { StyleSheet, View, Image, Text, TouchableOpacity } from 'react-native';
-import { FAB } from "@react-native-material/core";
+// import { FAB } from "@react-native-material/core";
 import Icon from "@expo/vector-icons/MaterialCommunityIcons";
 
 const Dashboard = () => {
@@ -43,20 +43,17 @@ const Dashboard = () => {
         {/* Current prescription notes*/}
         <View style={styles.prescription}>
             <Text style={styles.textHeader}>Prescription Notes</Text>
-
+            <View style={styles.prescriptionListView}>
+                
+            </View>
         </View>
 
         {/* Added floating button */}
-        <View style={styles.fabView}>
-            <FAB icon={props => <Icon 
-                name="plus" {...props} 
-                color={colors.white}
-                />
-            } 
-            color={colors.primary}
-            />
-        </View>
-        
+        <TouchableOpacity onPress={(this.navigateToDashboard)} style={styles.fabButton} >
+                <View style={styles.fabButtonView}>
+                    <Text style={styles.fabButtonText}>+</Text>
+                </View>
+        </TouchableOpacity>
 
     </View>
     );
@@ -144,15 +141,28 @@ const styles = StyleSheet.create({
         paddingHorizontal: '5%',
     },
 
-    fabView: {
-        alignItems: 'center',
+    fabButton: {
         position: 'absolute',
-        width: 50,
-        height: 50,
-        bottom: 50,
-        right: 20,
+        bottom: 40,
+        right: 20
+    },
 
-    }
+    fabButtonView: {
+        height: 50,
+        width: 50,
+        backgroundColor: colors.primary,
+        elevation: 5,
+        borderRadius: 50,
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+
+    fabButtonText: {
+        color: colors.white,
+        fontSize: 30,
+        // fontWeight: 'bold',
+    },
+
 
 })
 
