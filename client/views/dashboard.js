@@ -4,9 +4,11 @@
     and their corresponding schedule
 */}
 
-import { StyleSheet, View, Image, Text, TouchableOpacity } from 'react-native';
+import { StyleSheet, View, Image, Text, TouchableOpacity, ScrollView } from 'react-native';
 // import { FAB } from "@react-native-material/core";
 import Icon from "@expo/vector-icons/MaterialCommunityIcons";
+import PrescriptionList from '../components/PrescriptionList';
+import { PRESCRIPTIONS } from '../data';
 
 const Dashboard = () => {
     return (
@@ -43,10 +45,11 @@ const Dashboard = () => {
         {/* Current prescription notes*/}
         <View style={styles.prescription}>
             <Text style={styles.textHeader}>Prescription Notes</Text>
-            <View style={styles.prescriptionListView}>
-                
-            </View>
         </View>
+
+        <ScrollView showsVerticalScrollIndicator={false} style={styles.prescriptListView}>
+                <PrescriptionList list={PRESCRIPTIONS} />
+        </ScrollView>
 
         {/* Added floating button */}
         <TouchableOpacity onPress={(this.navigateToDashboard)} style={styles.fabButton} >
@@ -138,6 +141,7 @@ const styles = StyleSheet.create({
     },
 
     prescription: {
+        
         paddingHorizontal: '5%',
     },
 
@@ -163,6 +167,9 @@ const styles = StyleSheet.create({
         // fontWeight: 'bold',
     },
 
+    prescriptListView: {
+        paddingTop: '5%'
+    }
 
 })
 
