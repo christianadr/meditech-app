@@ -3,14 +3,51 @@
     Includes the available prescriptions
     and their corresponding schedule
 */}
-
+import React, { useState } from 'react';
 import { StyleSheet, View, Image, Text, TouchableOpacity, ScrollView } from 'react-native';
 // import { FAB } from "@react-native-material/core";
 import Icon from "@expo/vector-icons/MaterialCommunityIcons";
 import PrescriptionList from '../components/PrescriptionList';
-import { PRESCRIPTIONS } from '../data';
+import { PRESCRIPTIONS as initialPrescriptions } from '../data';
+import AddingPrescription from '../components/AddingPrescription';
 
 const Dashboard = () => {
+
+    // useState to determine whether to open or close the
+    // prescription dialog, use setIsDialogOpen to update
+    // current state of the variable isDialogOpen
+    const [isDialogOpen, setIsDialogOpen] = useState(false);
+    const [prescription, setPrescriptions] = useState(initialPrescriptions);
+
+    // Function to open the prescription dialog 
+    // when the "+" button is pressed
+    const openDialog = () => {
+        setIsDialogOpen(true);
+    };
+
+    // Function to close the prescription dialog
+    const closeDialog = () => {
+        setIsDialogOpen(false);
+    }
+
+    // Function to handle adding a new prescription to the list
+    const handleAddPrescription = (newPrescription) => {
+
+        // Copying existing 'PRESCRIPTIONS' array with the newPrescription object
+        const updatedPrescription = [
+            ...prescription,
+            {
+                id: prescription.length + 1,
+                ...newPrescription,
+            },
+        ];
+
+        // Replace the old array with a new one
+        setPrescriptions(updatedPrescription);
+
+        closeDialog(); // Closing dialog box
+    }
+
     return (
     <View style={styles.mainView}>
         <View style={styles.topNavBar}>
@@ -23,6 +60,8 @@ const Dashboard = () => {
                 </View>
             </TouchableOpacity>
         </View>
+
+        {isDialogOpen && <View style={styles.overlay}></View>}
 
         {/* some announcement */}
         <View style={styles.roundedRectangle}>
@@ -48,16 +87,18 @@ const Dashboard = () => {
         </View>
 
         <ScrollView showsVerticalScrollIndicator={false} style={styles.prescriptListView}>
-                <PrescriptionList list={PRESCRIPTIONS} />
+                <PrescriptionList list={prescription} />
         </ScrollView>
 
-        {/* Added floating button */}
-        <TouchableOpacity onPress={(this.navigateToDashboard)} style={styles.fabButton} >
+        {/* Added floating button, open dialog box when pressed */}
+        <TouchableOpacity onPress={openDialog} style={styles.fabButton} >
                 <View style={styles.fabButtonView}>
                     <Text style={styles.fabButtonText}>+</Text>
                 </View>
         </TouchableOpacity>
 
+        {/* Prescription Dialog */}
+        <AddingPrescription isOpen={isDialogOpen} onClose={closeDialog} onAddPrescription={handleAddPrescription} />
     </View>
     );
 };
@@ -72,6 +113,14 @@ const styles = StyleSheet.create({
     mainView: {
         flex: 1,
         paddingTop: '15%',
+    },
+
+    overlay: {
+        position: 'absolute',
+        width: '100%',
+        height: '110%',
+        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+        zIndex: 1,
     },
 
     topNavBar: {

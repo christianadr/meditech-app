@@ -7,10 +7,14 @@ const PrescriptionList = ({list}) => {
         <FlatList 
             data={list}
             horizontal
+            decelerationRate="fast"
             keyExtractor={i => i.id}
-            renderItem={({item}) => {
+            renderItem={({item, index}) => {
                 return (
-                    <TouchableOpacity style={{marginLeft: 15,}}>
+                    <TouchableOpacity style={{
+                        marginLeft: 15, 
+                        marginRight: index === list.length - 1 ? 15 : 0, 
+                        }}>
                         <View style={styles.card}>
                             <Text style={styles.header}>{item.medication}</Text>
                             <Text style={styles.text}>{item.dosage}</Text>
