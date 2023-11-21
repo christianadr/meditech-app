@@ -12,6 +12,11 @@ def index():
         case "POST":
             json_data = request.get_json()
 
+            # Validate name
+            name = json_data["name"]
+            if name is None:
+                return "Name is not found.", 404
+
             # Validate email
             email = json_data["email"]
             if email is None:
@@ -27,7 +32,7 @@ def index():
                 return "Password is invalid.", 400
 
             # Register user
-            new_user = {"email": email, "password": password}
+            new_user = {"name": name, "email": email, "password": password}
             create_user(new_user)
 
             return "Registered new user.", 200

@@ -19,10 +19,8 @@ def validate_email(email):
     """
 
     if re.fullmatch(_email_regex, email):
-        print("Valid email:", email)
         return True
     else:
-        print("Invalid email:", email)
         return False
 
 
@@ -50,8 +48,6 @@ def validate_password(password):
     mat = re.search(pat, password)
 
     if mat:
-        print("Valid password:", password)
         return True
     else:
-        print("Invalid password:", password)
         return False
