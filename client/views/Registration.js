@@ -114,7 +114,20 @@ export default function Registration({ navigation }) {
                         <View style={styles.bottomTexts}>
                             <Text style={[styles.text, { fontSize: 12 }]}>
                                 By registering with MediTech, you agree to our{" "}
-                                Terms of Use and Privacy Policy.
+                                <Link
+                                    to="/Registration"
+                                    style={{ color: colors.primary }}
+                                >
+                                    Terms of Use
+                                </Link>{" "}
+                                and{" "}
+                                <Link
+                                    to="/Registration"
+                                    style={{ color: colors.primary }}
+                                >
+                                    Privacy Policy
+                                </Link>
+                                .
                             </Text>
                             <Text
                                 style={[
@@ -150,6 +163,7 @@ const styles = StyleSheet.create({
     scrollView: {
         flexGrow: 1,
         paddingBottom: 10,
+        paddingTop: 10,
         justifyContent: "center",
     },
     subContainer: {

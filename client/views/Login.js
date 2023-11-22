@@ -114,6 +114,7 @@ const styles = StyleSheet.create({
     scrollView: {
         flexGrow: 1,
         paddingBottom: 10,
+        paddingTop: 10,
         justifyContent: "center",
     },
     subContainer: {
