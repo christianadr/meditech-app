@@ -1,9 +1,8 @@
-from controller.tokenController import store_token
-from controller.userController import get_user_by_email
-from utils.jwt import generate_token
-from utils.passwords import check_password
 from flask import Blueprint
 from flask import request
+from src.controller.userController import get_user_by_email
+from src.utils.jwt import generate_token
+from src.utils.passwords import check_password
 
 login_bp = Blueprint("login", __name__)
 
@@ -36,9 +35,6 @@ def index():
             if is_match:
                 access_token = generate_token(uuid)
                 refresh_token = generate_token(uuid, "refresh")
-
-                # Store token in the database
-                store_token(refresh_token)
 
                 return {
                     "access_token": access_token,

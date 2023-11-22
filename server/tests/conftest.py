@@ -13,9 +13,15 @@ def pytest_configure(config):
 
     # Drops table for every start of the test
     cursor.execute("""DROP TABLE IF EXISTS USER_TABLE""")
+    cursor.execute("""DROP TABLE IF EXISTS PRESCRIPTIONS_TABLE""")
+    cursor.execute("""DROP TABLE IF EXISTS TOKEN_TABLE""")
 
     # Save changes
     conn.commit()
 
     # Close connection
     conn.close()
+
+
+class Token:
+    token = None
