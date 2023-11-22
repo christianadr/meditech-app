@@ -1,4 +1,8 @@
+import os
+from dotenv import load_dotenv
 from flask import Flask
+
+load_dotenv()
 
 app = Flask(__name__)
 
@@ -20,4 +24,5 @@ app.register_blueprint(register_bp, url_prefix="/v1/register")
 app.register_blueprint(reminders_bp, url_prefix="/v1/reminders")
 
 if __name__ == "__main__":
-    app.run(host="192.168.254.104", port=5000, debug=True)
+    debug = os.getenv("PYTHON_ENV") == "development"
+    app.run(host=os.getenv("HOST"), port=int(os.getenv("PORT")), debug=debug)
