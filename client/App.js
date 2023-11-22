@@ -40,7 +40,7 @@ const App = () => {
                 <Stack.Screen
                     name="Dashboard"
                     component={Dashboard}
-                    options={{ headerShown: false }}
+                    options={{ headerShown: true }}
                 />
             </Stack.Navigator>
         </NavigationContainer>

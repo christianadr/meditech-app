@@ -29,7 +29,11 @@ export default function Login({ navigation }) {
             console.log(email);
             console.log(password);
 
-            navigation.navigate("Dashboard");
+            // navigation.navigate("Dashboard");
+            navigation.reset({
+                index: 0,
+                routes: [{ name: "Dashboard" }],
+            });
             onChangeEmail("");
             onChangePassword("");
         }

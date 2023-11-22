@@ -13,7 +13,7 @@ import PrescriptionList from "../components/PrescriptionList";
 import { PRESCRIPTIONS as initialPrescriptions } from "../data";
 import AddingPrescription from "../components/AddingPrescription";
 
-const Dashboard = () => {
+function Dashboard({ navigation }) {
     // useState to determine whether to open or close the
     // prescription dialog, use setIsDialogOpen to update
     // current state of the variable isDialogOpen
@@ -113,7 +113,7 @@ const Dashboard = () => {
             />
         </View>
     );
-};
+}
 
 const colors = {
     primary: "#00A65D",
