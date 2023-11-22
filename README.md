@@ -2,6 +2,8 @@
 
 An AI-driven application for auto-transcribing medicine prescriptions.
 
+![alt text](client/assets/images/cover.png)
+
 ## Developed by KeyBored Warriors
 
 - Del Rosario, Christian Ainsley
