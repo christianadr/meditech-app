@@ -13,23 +13,28 @@ import PrescriptionList from "../components/PrescriptionList";
 import { PRESCRIPTIONS as initialPrescriptions } from "../data";
 import AddingPrescription from "../components/AddingPrescription";
 
-function Dashboard({ navigation }) {
+export default function Dashboard({ navigation }) {
     // useState to determine whether to open or close the
     // prescription dialog, use setIsDialogOpen to update
     // current state of the variable isDialogOpen
-    const [isDialogOpen, setIsDialogOpen] = useState(false);
+    // const [isDialogOpen, setIsDialogOpen] = useState(false);
     const [prescription, setPrescriptions] = useState(initialPrescriptions);
+
+    navigateToCameraPreview = () => {
+        // console.log("Get Started Clicked..."); // debug purposes
+        navigation.navigate("CameraPreview");
+    };
 
     // Function to open the prescription dialog
     // when the "+" button is pressed
-    const openDialog = () => {
-        setIsDialogOpen(true);
-    };
+    // const openDialog = () => {
+    //     setIsDialogOpen(true);
+    // };
 
-    // Function to close the prescription dialog
-    const closeDialog = () => {
-        setIsDialogOpen(false);
-    };
+    // // Function to close the prescription dialog
+    // const closeDialog = () => {
+    //     setIsDialogOpen(false);
+    // };
 
     // Function to handle adding a new prescription to the list
     const handleAddPrescription = (newPrescription) => {
@@ -45,7 +50,7 @@ function Dashboard({ navigation }) {
         // Replace the old array with a new one
         setPrescriptions(updatedPrescription);
 
-        closeDialog(); // Closing dialog box
+        // closeDialog(); // Closing dialog box
     };
 
     return (
@@ -64,7 +69,7 @@ function Dashboard({ navigation }) {
                 </TouchableOpacity>
             </View>
 
-            {isDialogOpen && <View style={styles.overlay}></View>}
+            {/* {isDialogOpen && <View style={styles.overlay}></View>} */}
 
             {/* some announcement */}
             <View style={styles.roundedRectangle}>
@@ -99,18 +104,21 @@ function Dashboard({ navigation }) {
             </ScrollView>
 
             {/* Added floating button, open dialog box when pressed */}
-            <TouchableOpacity onPress={openDialog} style={styles.fabButton}>
+            <TouchableOpacity
+                onPress={navigateToCameraPreview}
+                style={styles.fabButton}
+            >
                 <View style={styles.fabButtonView}>
                     <Text style={styles.fabButtonText}>+</Text>
                 </View>
             </TouchableOpacity>
-
+            {/* <CameraComponent isOpen={isDialogOpen} onClose={closeDialog} /> */}
             {/* Prescription Dialog */}
-            <AddingPrescription
+            {/* <AddingPrescription
                 isOpen={isDialogOpen}
                 onClose={closeDialog}
                 onAddPrescription={handleAddPrescription}
-            />
+            /> */}
         </View>
     );
 }
@@ -230,5 +238,3 @@ const styles = StyleSheet.create({
         paddingTop: "5%",
     },
 });
-
-export default Dashboard;

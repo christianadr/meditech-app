@@ -6,6 +6,7 @@ import LandingPage from "./views/LandingPage.js";
 import Dashboard from "./views/Dashboard.js";
 import Login from "./views/Login.js";
 import Registration from "./views/Registration.js";
+import CameraPreview from "./views/CameraPreview.js";
 
 const Stack = createNativeStackNavigator();
 
@@ -21,7 +22,7 @@ const App = () => {
 
     return (
         <NavigationContainer>
-            <Stack.Navigator initialRouteName="LandingPage">
+            <Stack.Navigator initialRouteName="Dashboard">
                 <Stack.Screen
                     name="LandingPage"
                     component={LandingPage}
@@ -40,7 +41,12 @@ const App = () => {
                 <Stack.Screen
                     name="Dashboard"
                     component={Dashboard}
-                    options={{ headerShown: true }}
+                    options={{ headerShown: false }}
+                />
+                <Stack.Screen
+                    name="CameraPreview"
+                    component={CameraPreview}
+                    options={{ headerShown: false }}
                 />
             </Stack.Navigator>
         </NavigationContainer>
