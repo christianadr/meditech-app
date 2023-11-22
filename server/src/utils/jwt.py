@@ -27,9 +27,9 @@ def decode_token(token, type="access"):
 
     match type:
         case "access":
-            result = jwt.decode(token, os.getenv("PUBLIC_KEY"))
+            result = jwt.decode(token, os.getenv("PUBLIC_KEY"), ["HS256"])
         case "refresh":
-            result = jwt.decode(token, os.getenv("SECRET_KEY"))
+            result = jwt.decode(token, os.getenv("SECRET_KEY"), ["HS256"])
         case _:
             return None
 

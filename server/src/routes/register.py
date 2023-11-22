@@ -1,7 +1,7 @@
 from flask import Blueprint
 from flask import request
-from controller.userController import create_user
-from utils.validations import validate_email, validate_password
+from src.controller.userController import create_user
+from src.utils.validations import validate_email, validate_password
 
 register_bp = Blueprint("register", __name__)
 

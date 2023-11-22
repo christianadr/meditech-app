@@ -2,7 +2,7 @@ import os
 import sqlite3
 import uuid
 from dotenv import load_dotenv
-from utils.passwords import get_hashed_password, check_password
+from src.utils.passwords import get_hashed_password
 
 load_dotenv()
 
@@ -20,7 +20,7 @@ def create_user(data: dict):
 
     if not isinstance(data, dict):
         raise TypeError("'data' must be of type dictionary.")
-    elif data is None:
+    elif not data:
         raise ValueError("'data' must be not None.")
 
     # Establishing the connection

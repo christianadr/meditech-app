@@ -9,10 +9,10 @@ def hello_world():
 
 
 # Register Blueprint Routes
-from routes.login import login_bp
-from routes.prescriptions import prescriptions_bp
-from routes.register import register_bp
-from routes.reminders import reminders_bp
+from src.routes.login import login_bp
+from src.routes.prescriptions import prescriptions_bp
+from src.routes.register import register_bp
+from src.routes.reminders import reminders_bp
 
 app.register_blueprint(login_bp, url_prefix="/v1/login")
 app.register_blueprint(prescriptions_bp, url_prefix="/v1/prescriptions")
