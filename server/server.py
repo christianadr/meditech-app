@@ -20,4 +20,4 @@ app.register_blueprint(register_bp, url_prefix="/v1/register")
 app.register_blueprint(reminders_bp, url_prefix="/v1/reminders")
 
 if __name__ == "__main__":
-    app.run(host="localhost", port=5000, debug=True)
+    app.run(host="192.168.254.104", port=5000, debug=True)
