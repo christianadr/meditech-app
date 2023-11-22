@@ -1,11 +1,13 @@
 import requests
 from conftest import Token
 
+SERVER_URL = "http://192.168.1.63:5000"
+
 
 class TestServerAPI:
     # Test user registration
     def test_create_user(self):
-        url = "http://localhost:5000/v1/register/"
+        url = f"{SERVER_URL}/v1/register/"
 
         # Test user
         test_name = "Juan Dela Cruz"
@@ -21,7 +23,7 @@ class TestServerAPI:
 
     # Test user login
     def test_login_user(self):
-        url = "http://localhost:5000/v1/login/"
+        url = f"{SERVER_URL}/v1/login/"
 
         # Test User
         test_email = "test@example.com"
@@ -42,7 +44,7 @@ class TestServerAPI:
 
     # Test add prescriptions
     def test_add_prescriptions(self):
-        url = "http://localhost:5000/v1/prescriptions/"
+        url = f"{SERVER_URL}/v1/prescriptions/"
 
         # Test payload
         payload = {
@@ -60,7 +62,7 @@ class TestServerAPI:
         assert response.text == "Added prescription to the database."
 
     def test_get_prescriptions(self):
-        url = "http://localhost:5000/v1/prescriptions/"
+        url = f"{SERVER_URL}/v1/prescriptions/"
 
         # Request data from server
         response = requests.get(url, headers={"Authorization": f"Bearer {Token.token}"})
@@ -80,7 +82,7 @@ class TestServerAPI:
         assert test_item[3] == "1 tab a day for 15 days"
 
     def test_delete_prescriptions(self):
-        url = "http://localhost:5000/v1/prescriptions/delete"
+        url = f"{SERVER_URL}/v1/prescriptions/delete"
 
         # Test payload
         payload = {"prescription_id": 1}
