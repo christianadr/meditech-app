@@ -4,7 +4,6 @@ import {
     StyleSheet,
     View,
     Text,
-    Image,
     TouchableOpacity,
     SafeAreaView,
     Alert,
@@ -12,26 +11,46 @@ import {
     Platform,
     ScrollView,
 } from "react-native";
-import { Link } from "@react-navigation/native";
-import TextInputComponent from "../components/TextInputs/TextInputComponent";
 
-export default function Login({ navigation }) {
+import TextInputComponent from "../components/TextInputs/TextInputComponent";
+import { Link } from "@react-navigation/native";
+
+export default function Registration({ navigation }) {
+    const [name, onChangeName] = useState("");
     const [email, onChangeEmail] = useState("");
+    const [confirmEmail, onChangeConfirmEmail] = useState("");
     const [password, onChangePassword] = useState("");
+    const [confirmPassword, onChangeConfirmPassword] = useState("");
 
     // function for login button
     // -- insert API functionalities here?
     navigateToDashboard = () => {
-        if (email.trim() === "" || password.trim() === "") {
+        if (
+            name.trim() === "" ||
+            email.trim() === "" ||
+            password.trim() === ""
+        ) {
             Alert.alert("Error", "Please fill in all fields.");
+        } else if (
+            email.trim() !== confirmEmail.trim() ||
+            password.trim() !== confirmPassword.trim()
+        ) {
+            Alert.alert(
+                "Wrong confirmation",
+                "Please confirm email or password."
+            );
         } else {
             // console.log("Login Clicked..."); // debug purposes
+            console.log(name);
             console.log(email);
             console.log(password);
 
             navigation.navigate("Dashboard");
+            onChangeName("");
             onChangeEmail("");
+            onChangeConfirmEmail("");
             onChangePassword("");
+            onChangeConfirmPassword("");
         }
     };
 
@@ -44,28 +63,41 @@ export default function Login({ navigation }) {
                     keyboardVerticalOffset={Platform.OS === "ios" ? 0 : 10}
                 >
                     <ScrollView contentContainerStyle={styles.scrollView}>
-                        <Image
-                            source={require("../assets/images/logo-xl.png")}
-                            style={styles.logo}
-                        />
-
                         <Text style={[styles.text, { color: colors.primary }]}>
-                            Log in
+                            Sign Up
                         </Text>
-                        <View style={styles.welcomeContainer}>
+                        <View>
                             <Text style={styles.text}>Hello there!</Text>
-                            <Text style={styles.text}>Welcome back.</Text>
+                            <Text style={styles.text}>
+                                Welcome to MediTech App.
+                            </Text>
                         </View>
                         <View style={styles.textInputs}>
+                            <TextInputComponent
+                                placeholder={"Full Name"}
+                                value={name}
+                                onChangeText={onChangeName}
+                            />
                             <TextInputComponent
                                 placeholder={"Email Address"}
                                 value={email}
                                 onChangeText={onChangeEmail}
                             />
                             <TextInputComponent
+                                placeholder={"Confirm Email Address"}
+                                value={confirmEmail}
+                                onChangeText={onChangeConfirmEmail}
+                            />
+                            <TextInputComponent
                                 placeholder={"Password"}
                                 value={password}
                                 onChangeText={onChangePassword}
+                                secureText={true}
+                            />
+                            <TextInputComponent
+                                placeholder={"Confirm Password"}
+                                value={confirmPassword}
+                                onChangeText={onChangeConfirmPassword}
                                 secureText={true}
                             />
                         </View>
@@ -76,22 +108,26 @@ export default function Login({ navigation }) {
                                     { backgroundColor: colors.primary },
                                 ]}
                             >
-                                <Text style={styles.buttonText}>LOG IN</Text>
+                                <Text style={styles.buttonText}>SIGN UP</Text>
                             </View>
                         </TouchableOpacity>
                         <View style={styles.bottomTexts}>
+                            <Text style={[styles.text, { fontSize: 12 }]}>
+                                By registering with MediTech, you agree to our{" "}
+                                Terms of Use and Privacy Policy.
+                            </Text>
                             <Text
                                 style={[
                                     styles.text,
                                     { fontSize: 12, textAlign: "center" },
                                 ]}
                             >
-                                Don't have an account?{" "}
+                                Already have an account?{" "}
                                 <Link
-                                    to="/Registration"
+                                    to="/Login"
                                     style={{ color: colors.primary }}
                                 >
-                                    Sign Up
+                                    Log In
                                 </Link>
                             </Text>
                         </View>
@@ -121,25 +157,18 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         padding: 30,
     },
-    logo: {
-        alignSelf: "center",
-        marginBottom: 100,
-        top: 100,
-    },
-    welcomeContainer: {
-        marginTop: 20,
-    },
+
     text: {
         fontFamily: "Inter-Regular",
         fontSize: 20,
     },
     textInputs: {
-        marginTop: 20,
+        marginTop: 10,
         gap: 10,
         marginBottom: 10,
     },
     buttonContainer: {
-        marginTop: 30,
+        marginTop: 20,
         alignItems: "center",
         justifyContent: "center",
         alignSelf: "center",

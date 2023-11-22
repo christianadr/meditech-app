@@ -5,40 +5,46 @@ import { useFonts } from "expo-font";
 import LandingPage from "./views/LandingPage.js";
 import Dashboard from "./views/Dashboard.js";
 import Login from "./views/Login.js";
+import Registration from "./views/Registration.js";
 
 const Stack = createNativeStackNavigator();
 
 const App = () => {
-	const [loaded] = useFonts({
-		"Inter-Bold": require("./assets/fonts/Inter-Bold.ttf"),
-		"Inter-Regular": require("./assets/fonts/Inter-Regular.ttf"),
-	});
+    const [loaded] = useFonts({
+        "Inter-Bold": require("./assets/fonts/Inter-Bold.ttf"),
+        "Inter-Regular": require("./assets/fonts/Inter-Regular.ttf"),
+    });
 
-	if (!loaded) {
-		return null;
-	}
+    if (!loaded) {
+        return null;
+    }
 
-	return (
-		<NavigationContainer>
-			<Stack.Navigator initialRouteName="LandingPage">
-				<Stack.Screen
-					name="LandingPage"
-					component={LandingPage}
-					options={{ headerShown: false }}
-				/>
-				<Stack.Screen
-					name="Login"
-					component={Login}
-					options={{ headerShown: false }}
-				/>
-				<Stack.Screen
-					name="Dashboard"
-					component={Dashboard}
-					options={{ headerShown: false }}
-				/>
-			</Stack.Navigator>
-		</NavigationContainer>
-	);
+    return (
+        <NavigationContainer>
+            <Stack.Navigator initialRouteName="LandingPage">
+                <Stack.Screen
+                    name="LandingPage"
+                    component={LandingPage}
+                    options={{ headerShown: false }}
+                />
+                <Stack.Screen
+                    name="Registration"
+                    component={Registration}
+                    options={{ headerShown: false }}
+                />
+                <Stack.Screen
+                    name="Login"
+                    component={Login}
+                    options={{ headerShown: false }}
+                />
+                <Stack.Screen
+                    name="Dashboard"
+                    component={Dashboard}
+                    options={{ headerShown: false }}
+                />
+            </Stack.Navigator>
+        </NavigationContainer>
+    );
 };
 
 export default App;

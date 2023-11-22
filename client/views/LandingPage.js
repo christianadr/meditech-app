@@ -13,6 +13,11 @@ export default function LandingPage({ navigation }) {
         navigation.navigate("Login");
     };
 
+    navigateToSignup = () => {
+        // console.log("Get Started Clicked..."); // debug purposes
+        navigation.navigate("Registration");
+    };
+
     return (
         <ImageBackground
             source={require("../assets/images/login-bg.png")}
@@ -33,7 +38,7 @@ export default function LandingPage({ navigation }) {
                         <Text style={styles.buttonText}>LOG IN</Text>
                     </View>
                 </TouchableOpacity>
-                <TouchableOpacity>
+                <TouchableOpacity onPress={navigateToSignup}>
                     <View
                         style={[
                             styles.buttonContainer,
