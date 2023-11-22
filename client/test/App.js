@@ -3,7 +3,7 @@ import { faker } from "@faker-js/faker";
 import { assert } from "chai";
 import { before, after, describe, it, test } from "mocha";
 
-const SERVER_URL = "http://127.0.0.1:5000";
+const SERVER_URL = "http://192.168.1.63:5000";
 
 describe("Testing App Functionalities", () => {
 	describe("Testing Registration Endpoint", () => {
