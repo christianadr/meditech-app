@@ -1,6 +1,6 @@
 import os
 import requests
-from conftest import Token
+from conftest import Token, TestPrescription
 
 SERVER_URL = "http://127.0.0.1:5000"
 
@@ -81,6 +81,23 @@ class TestServerAPI:
         assert test_item[1] == "Omeprozole"
         assert test_item[2] == "20mg"
         assert test_item[3] == "1 tab a day for 15 days"
+
+        # Store prescription id
+        TestPrescription.id = test_item[0]
+
+    def test_update_prescriptions(self):
+        url = f"{SERVER_URL}/v1/prescriptions/"
+
+        # Test payload
+        new_data = {"prescription_id": TestPrescription.id, "medication": "Paracetamol"}
+
+        # Request data from server
+        response = requests.put(
+            url, json=new_data, headers={"Authorization": f"Bearer {Token.token}"}
+        )
+
+        assert response.status_code == 200
+        assert response.text == "Updated prescription in the database."
 
     def test_upload_files(self):
         url = f"{SERVER_URL}/v1/prescriptions/upload"

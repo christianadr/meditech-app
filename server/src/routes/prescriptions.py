@@ -5,6 +5,7 @@ from src.controller.prescriptionController import (
     add_prescription,
     get_prescriptions,
     delete_prescription,
+    update_prescription,
 )
 from src.middleware.jwt import token_required
 from src.models.main import inference_on_image
@@ -12,7 +13,7 @@ from src.models.main import inference_on_image
 prescriptions_bp = Blueprint("prescriptions", __name__)
 
 
-@prescriptions_bp.route("/", methods=["GET", "POST"])
+@prescriptions_bp.route("/", methods=["GET", "POST", "PUT"])
 @token_required("prescriptions")
 def index(user):
     if not user:
@@ -37,6 +38,14 @@ def index(user):
         add_prescription(json_data)
 
         return "Added prescription to the database.", 200
+    elif request.method == "PUT":
+        # Get all new data
+        json_data = request.get_json()
+
+        # Update prescriptions in the database
+        update_prescription(user[0], json_data)
+
+        return "Updated prescription in the database.", 200
     else:
         return 404
 

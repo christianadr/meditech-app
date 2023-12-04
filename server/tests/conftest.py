@@ -25,3 +25,7 @@ def pytest_configure(config):
 
 class Token:
     token = None
+
+
+class TestPrescription:
+    id = None

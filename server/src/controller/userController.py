@@ -116,7 +116,3 @@ def get_user_by_uuid(uuid):
     curr.execute("SELECT * FROM USER_TABLE WHERE uuid=? LIMIT 1", (uuid,))
     user = curr.fetchone()
     return user
-
-
-# Update user
-# Delete user
