@@ -100,7 +100,7 @@ export default function Dashboard({ navigation }) {
                 showsVerticalScrollIndicator={false}
                 style={styles.prescriptListView}
             >
-                <PrescriptionList list={prescription} />
+                {/* <PrescriptionList list={prescription} /> */}
             </ScrollView>
 
             {/* Added floating button, open dialog box when pressed */}
