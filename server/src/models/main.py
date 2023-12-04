@@ -41,9 +41,7 @@ def inference_on_image(src, dest):
     names = model.names
 
     # Iterate through each bounding boxes
-    dest = os.path.join(dest, "labels")
-    os.makedirs(dest, exist_ok=True)
-
+    results = {}
     for i, box in enumerate(boxes):
         min_x, min_y, max_x, max_y = box
 
@@ -51,5 +49,10 @@ def inference_on_image(src, dest):
         temp = img[int(min_y) : int(max_y), int(min_x) : int(max_x)]
         label = names[int(labels[i])]
 
+        # Run inference
         response = query(temp)
-        print(f"{label}: {response[0]['generated_text']}")
+
+        # Store in a dictionary
+        results.update({label: response[0]["generated_text"]})
+
+    return results
