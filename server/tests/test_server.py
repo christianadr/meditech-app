@@ -1,7 +1,8 @@
+import os
 import requests
 from conftest import Token
 
-SERVER_URL = "http://192.168.1.63:5000"
+SERVER_URL = "http://127.0.0.1:5000"
 
 
 class TestServerAPI:
@@ -80,6 +81,20 @@ class TestServerAPI:
         assert test_item[1] == "Omeprozole"
         assert test_item[2] == "20mg"
         assert test_item[3] == "1 tab a day for 15 days"
+
+    def test_upload_files(self):
+        url = f"{SERVER_URL}/v1/prescriptions/upload"
+
+        # Test payload
+        test_image = {"image": open("./tests/images/test_prescription.jpg", "rb")}
+
+        # Send image to server
+        response = requests.post(
+            url, files=test_image, headers={"Authorization": f"Bearer {Token.token}"}
+        )
+
+        assert response.status_code == 200
+        assert response.text == "File uploaded."
 
     def test_delete_prescriptions(self):
         url = f"{SERVER_URL}/v1/prescriptions/delete"
