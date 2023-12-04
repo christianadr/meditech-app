@@ -94,7 +94,6 @@ class TestServerAPI:
         )
 
         assert response.status_code == 200
-        assert response.text == "File uploaded."
 
     def test_delete_prescriptions(self):
         url = f"{SERVER_URL}/v1/prescriptions/delete"

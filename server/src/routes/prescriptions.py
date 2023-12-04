@@ -80,5 +80,5 @@ def upload(user):
         image.save(os.path.join(dest, image.filename))
 
         # Run inference on the image
-        inference_on_image(os.path.join(dest, image.filename), dest)
-        return "File uploaded.", 200
+        results = inference_on_image(os.path.join(dest, image.filename), dest)
+        return results
