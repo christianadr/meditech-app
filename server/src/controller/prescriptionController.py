@@ -123,3 +123,46 @@ def delete_prescription(uuid, prescription_id):
 
     # Close the connection
     conn.close()
+
+
+def update_prescription(uuid, new_data):
+    """
+    Updates and existing prescription in the data.
+
+    Params:
+        uuid: Unique User Identifier
+        prescription_id: Prescription to be updated
+        new_data: New data to be uploaded
+    """
+
+    if not isinstance(uuid, str):
+        raise TypeError("'uuid' must be a string.")
+    elif not uuid:
+        raise ValueError("'uuid' must have a value.")
+
+    if not isinstance(new_data, dict):
+        raise TypeError("'new_data' must be a dictionary.")
+    elif not new_data:
+        raise ValueError("'new_data' must have a value.")
+
+    # Establishing the connection
+    conn = sqlite3.connect(DB_URL)
+    curr = conn.cursor()
+
+    # Extact prescription id
+    prescription_id = new_data["prescription_id"]
+    del new_data["prescription_id"]
+
+    # Search the table for all prescriptions
+    query = (
+        "UPDATE PRESCRIPTIONS_TABLE SET "
+        + ", ".join(f"{key} = ?" for key in new_data)
+        + "WHERE user_id = ? AND prescription_id = ?"
+    )
+    curr.execute(query, tuple(new_data.values()) + (uuid, prescription_id))
+
+    # Save the changes
+    conn.commit()
+
+    # Close the connection
+    conn.close()
