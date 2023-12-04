@@ -1,3 +1,4 @@
+import os
 from flask import Blueprint
 from flask import request
 from src.controller.prescriptionController import (
@@ -7,7 +8,6 @@ from src.controller.prescriptionController import (
 )
 from src.middleware.jwt import token_required
 from src.models.main import inference_on_image
-
 
 prescriptions_bp = Blueprint("prescriptions", __name__)
 
@@ -41,19 +41,6 @@ def index(user):
         return 404
 
 
-@prescriptions_bp.route("/upload", methods=["GET", "POST"])
-@token_required("upload_image")
-def upload(user):
-    if not user:
-        return "'user' is not found.", 404
-    elif not user[0]:
-        return "'uuid' of user is not found.", 404
-    
-    if request.method == "POST":
-        bytesOfImage = request.get_data()
-        # with open('')
-
-
 @prescriptions_bp.route("/delete", methods=["POST"])
 @token_required("delete_prescriptions")
 def delete(user):
@@ -74,3 +61,24 @@ def delete(user):
 
     else:
         return 404
+
+
+@prescriptions_bp.route("/upload", methods=["GET", "POST"])
+@token_required("upload_image")
+def upload(user):
+    if not user:
+        return "'user' is not found.", 404
+    elif not user[0]:
+        return "'uuid' of user is not found.", 404
+
+    if request.method == "POST":
+        image = request.files["image"]
+
+        # Save image on uploads folder
+        dest = os.path.join("uploads", user[0])
+        os.makedirs(dest, exist_ok=True)
+        image.save(os.path.join(dest, image.filename))
+
+        # Run inference on the image
+        inference_on_image(os.path.join(dest, image.filename), dest)
+        return "File uploaded.", 200
