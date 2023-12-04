@@ -4,6 +4,9 @@ import { Camera, CameraType } from "expo-camera";
 import * as MediaLibrary from "expo-media-library";
 import CameraButton from "../components/Buttons/CameraButton.js";
 
+import { SERVER_URL } from "../Globals.js";
+import axios from "axios";
+
 export default function CameraPreview({ navigation }) {
     const [hasCameraPermission, setHasCameraPermission] = useState(null);
     const [image, setImage] = useState(null);
@@ -54,7 +57,42 @@ export default function CameraPreview({ navigation }) {
 
     // function to handle image OCR logic
     const handleImageStoring = async () => {
-        //-- Insert here sending image to model
+        // function to handle image OCR logic
+        const handleImageStoring = async () => {
+            if (image) {
+                try {
+                    // Convert the image data to FormData
+                    const formData = new FormData();
+                    formData.append("image", {
+                        uri: image,
+                        name: "photo.jpg",
+                        type: "image/jpg",
+                    });
+
+                    // Send the image data to the server using axios
+                    const response = await axios.post(
+                        `${SERVER_URL}/v1/prescriptions/upload`,
+                        formData,
+                        {
+                            headers: {
+                                "Content-Type": "multipart/form-data",
+                            },
+                        }
+                    );
+
+                    // Handle the response from the server
+                    console.log("Image uploaded:", response.data);
+
+                    // Here you can perform actions based on the server response if needed
+                } catch (error) {
+                    console.error("Error uploading image:", error);
+                    // Handle errors that occur during image upload
+                }
+            } else {
+                console.warn("No image captured yet.");
+                // Handle the case where there is no image captured
+            }
+        };
     };
 
     if (hasCameraPermission === false) {
