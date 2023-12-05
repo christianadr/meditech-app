@@ -81,6 +81,10 @@ def upload(user):
         return "'uuid' of user is not found.", 404
 
     if request.method == "POST":
+        print(request.files)
+        if "image" not in request.files:
+            return "'image' key not found in request.", 400
+
         image = request.files["image"]
 
         # Save image on uploads folder
@@ -90,4 +94,7 @@ def upload(user):
 
         # Run inference on the image
         results = inference_on_image(os.path.join(dest, image.filename), dest)
-        return results
+        if len(results) > 0:
+            return results
+        else:
+            return {"message": "No inferences found."}, 200

@@ -2,7 +2,7 @@ import os
 import requests
 from conftest import Token, TestPrescription
 
-SERVER_URL = "http://192.168.254.104:5000"
+SERVER_URL = "http://127.0.0.1:5000"
 
 
 class TestServerAPI:
@@ -103,7 +103,7 @@ class TestServerAPI:
         url = f"{SERVER_URL}/v1/prescriptions/upload"
 
         # Test payload
-        test_image = {"image": open("./tests/images/test_prescription.jpg", "rb")}
+        test_image = {"file": open("./tests/images/test_prescription.jpg", "rb")}
 
         # Send image to server
         response = requests.post(
