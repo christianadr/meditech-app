@@ -6,7 +6,7 @@ import LandingPage from "./views/LandingPage.js";
 import Dashboard from "./views/Dashboard.js";
 import Login from "./views/Login.js";
 import Registration from "./views/Registration.js";
-import CameraPreview from "./views/CameraPreview.js";
+import CameraPreview from "./views/_CameraPreview.js";
 import AddingPrescription from "./views/AddPrescription.js";
 
 const Stack = createNativeStackNavigator();

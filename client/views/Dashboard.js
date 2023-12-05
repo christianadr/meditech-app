@@ -29,7 +29,6 @@ export default function Dashboard({ navigation }) {
 	// prescription dialog, use setIsDialogOpen to update
 	// current state of the variable isDialogOpen
 	const [modalVisible, setModalVisible] = useState(false);
-	const [prescription, setPrescriptions] = useState(initialPrescriptions);
 	const [image, setImage] = useState();
 
 	const navigateToCameraPreview = () => {
@@ -130,38 +129,16 @@ export default function Dashboard({ navigation }) {
 
 			if (response.ok) {
 				const responseData = await response.json();
-				const { medicine_name, medicine_dosage, medicine_instruction } =
-					responseData; // These are the received data to be passed to the Add Prescription page
+				console.log(responseData);
+
+				navigation.navigate("AddPrescription", {
+					data: { ...responseData },
+				});
 			} else {
 				alert("Request error: ", response.status);
 			}
 		} catch (error) {
-			alert(`Error: ${error.message}`);
-		}
-	};
-
-	/**
-	 * Retrieves a list of prescriptions from the backend associated
-	 * with the user's account.
-	 */
-	const retrievePrescriptions = async () => {
-		const url = `${SERVER_URL}/v1/prescriptions`;
-
-		try {
-			// Fetches data from the backend. Retrives all saved prescriptions
-			const response = await fetch(url, {
-				method: "GET",
-				headers: {
-					Authorization: `Bearer ${await getValueFor("access_token")}`,
-				},
-			});
-
-			if (response.ok) {
-				const prescription_list = response.json();
-				console.log(prescription_list); // Prescription list
-			}
-		} catch (err) {
-			alert(`Error retrieving prescriptions: ${err.message}`);
+			alert(`No inferences detected.`);
 		}
 	};
 
@@ -211,7 +188,7 @@ export default function Dashboard({ navigation }) {
 			<ScrollView
 				showsVerticalScrollIndicator={false}
 				style={styles.prescriptListView}>
-				{/* <PrescriptionList list={prescription} /> */}
+				<PrescriptionList />
 			</ScrollView>
 
 			{/* Modal for camera and gallery options */}
