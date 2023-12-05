@@ -3,8 +3,10 @@ import { StyleSheet, Text, View, Image, Dimensions } from "react-native";
 import { Camera, CameraType } from "expo-camera";
 import * as MediaLibrary from "expo-media-library";
 import CameraButton from "../components/Buttons/CameraButton.js";
+import * as FileSystem from "expo-file-system";
 
 import { SERVER_URL } from "../Globals.js";
+import { getValueFor } from "../utils/storage.js";
 import axios from "axios";
 
 export default function CameraPreview({ navigation }) {
@@ -56,43 +58,35 @@ export default function CameraPreview({ navigation }) {
     };
 
     // function to handle image OCR logic
-
-    // function to handle image OCR logic
     const handleImageStoring = async () => {
-        navigation.navigate("AddPrescription");
-        // if (image) {
-        //     try {
-        //         // Convert the image data to FormData
-        //         const formData = new FormData();
-        //         formData.append("image", {
-        //             uri: image,
-        //             name: "photo.jpg",
-        //             type: "image/jpg",
-        //         });
+        if (image) {
+            try {
+                const formData = new FormData();
+                const imageData = await FileSystem.readAsStringAsync(image, {
+                    encoding: "base64",
+                });
 
-        //         // Send the image data to the server using axios
-        //         const response = await axios.post(
-        //             `${SERVER_URL}/v1/prescriptions/upload`,
-        //             formData,
-        //             {
-        //                 headers: {
-        //                     "Content-Type": "multipart/form-data",
-        //                 },
-        //             }
-        //         );
+                // Create a Blob object from the base64-encoded data
+                const imageBlob = new Blob([imageData], { type: "image/jpeg" });
+                formData.append("image", imageBlob, "image.jpg");
 
-        //         // Handle the response from the server
-        //         console.log("Image uploaded:", response.data);
+                // Send the image data to the server using axios
+                const access_token = await getValueFor("access_token");
+                const url = `${SERVER_URL}/v1/prescriptions/upload`;
+                const response = await axios.post(url, formData, {
+                    headers: {
+                        Authorization: `Bearer ${access_token}`,
+                        "Content-Type": "multipart/form-data;",
+                    },
+                });
 
-        //         // Here you can perform actions based on the server response if needed
-        //     } catch (error) {
-        //         console.error("Error uploading image:", error);
-        //         // Handle errors that occur during image upload
-        //     }
-        // } else {
-        //     console.warn("No image captured yet.");
-        //     // Handle the case where there is no image captured
-        // }
+                if (response.status == 200) {
+                    navigation.navigate("AddPrescription");
+                }
+            } catch (error) {
+                console.log(error.request);
+            }
+        }
     };
 
     if (hasCameraPermission === false) {

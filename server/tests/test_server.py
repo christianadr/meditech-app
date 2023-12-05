@@ -2,7 +2,7 @@ import os
 import requests
 from conftest import Token, TestPrescription
 
-SERVER_URL = "http://127.0.0.1:5000"
+SERVER_URL = "http://192.168.254.104:5000"
 
 
 class TestServerAPI:
