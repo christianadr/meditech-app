@@ -53,6 +53,7 @@ def inference_on_image(src, dest):
         response = query(temp)
 
         # Store in a dictionary
-        results.update({label: response[0]["generated_text"]})
+        if len(response[0]) > 0:
+            results.update({label: response[0]["generated_text"]})
 
     return results
