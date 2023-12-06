@@ -81,11 +81,15 @@ def get_prescriptions(uuid):
     curr = conn.cursor()
 
     # Search the table for all prescriptions
-    curr.execute(
-        "SELECT prescription_id, medication, dosage, instruction FROM PRESCRIPTIONS_TABLE WHERE user_id = ?",
-        (uuid,),
-    )
-    prescriptions = curr.fetchall()
+    try:
+        curr.execute(
+            "SELECT prescription_id, medication, dosage, instruction FROM PRESCRIPTIONS_TABLE WHERE user_id = ?",
+            (uuid,),
+        )
+        prescriptions = curr.fetchall()
+    except:
+        return None
+
     return prescriptions
 
 

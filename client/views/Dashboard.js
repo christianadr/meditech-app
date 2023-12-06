@@ -29,25 +29,34 @@ export default function Dashboard({ navigation }) {
 	// prescription dialog, use setIsDialogOpen to update
 	// current state of the variable isDialogOpen
 	const [modalVisible, setModalVisible] = useState(false);
-	const [prescription, setPrescriptions] = useState(initialPrescriptions);
 	const [image, setImage] = useState();
 
-	navigateToCameraPreview = () => {
+	const navigateToCameraPreview = () => {
 		// console.log("Get Started Clicked..."); // debug purposes
 		navigation.navigate("CameraPreview");
 	};
 
-	// Function to open the prescription dialog
-	// when the "+" button is pressed
+	/**
+	 * 	Function to open the prescription dialog
+	 *  when the "+" button is pressed
+	 */
 	const openDialog = () => {
 		setModalVisible(true);
 	};
 
-	// // Function to close the prescription dialog
+	/**
+	 * Function to close the prescription dialog
+	 */
 	const closeDialog = () => {
 		setModalVisible(false);
 	};
 
+	/**
+	 * Function to call when user pressed the camera or gallery
+	 * button. Initiates the device to open either the camera or the
+	 * gallery.
+	 * @param {*} mode
+	 */
 	const uploadImage = async (mode) => {
 		try {
 			let result = {};
@@ -78,11 +87,15 @@ export default function Dashboard({ navigation }) {
 		}
 	};
 
+	/**
+	 * Saves the image's URI for later retrieval
+	 * @param {*} image
+	 */
 	const saveImage = async (image) => {
 		try {
 			setImage(image);
 
-			toBackend(); // api call to send image to backend
+			uploadImageToServer(); // api call to send image to backend
 
 			setModalVisible(false);
 		} catch (error) {
@@ -90,13 +103,11 @@ export default function Dashboard({ navigation }) {
 		}
 	};
 
-	const toBackend = async () => {
-		// Create a Blob object from the base64-encoded data
-		// const imageData = await FileSystem.readAsStringAsync(image, {
-		// 	encoding: "base64",
-		// });
-		// const imageBlob = new Blob([imageData], { type: "image/jpeg" });
-
+	/**
+	 * Uploads selected image to the backend server.
+	 */
+	const uploadImageToServer = async () => {
+		// Create a form data that will be sent to the backend
 		const formData = new FormData();
 		formData.append("image", {
 			uri: image,
@@ -104,7 +115,6 @@ export default function Dashboard({ navigation }) {
 			name: "image.jpg",
 		});
 
-		const access_token = await getValueFor("access_token");
 		const url = `${SERVER_URL}/v1/prescriptions/upload`;
 
 		try {
@@ -113,18 +123,22 @@ export default function Dashboard({ navigation }) {
 				body: formData,
 				headers: {
 					"Content-Type": "multipart/form-data",
-					Authorization: `Bearer ${access_token}`,
+					Authorization: `Bearer ${await getValueFor("access_token")}`,
 				},
 			});
 
 			if (response.ok) {
 				const responseData = await response.json();
 				console.log(responseData);
+
+				navigation.navigate("AddPrescription", {
+					data: { ...responseData },
+				});
 			} else {
 				alert("Request error: ", response.status);
 			}
 		} catch (error) {
-			console.log(error);
+			alert(`No inferences detected.`);
 		}
 	};
 
@@ -174,7 +188,7 @@ export default function Dashboard({ navigation }) {
 			<ScrollView
 				showsVerticalScrollIndicator={false}
 				style={styles.prescriptListView}>
-				{/* <PrescriptionList list={prescription} /> */}
+				<PrescriptionList />
 			</ScrollView>
 
 			{/* Modal for camera and gallery options */}

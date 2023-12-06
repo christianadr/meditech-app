@@ -17,9 +17,9 @@ prescriptions_bp = Blueprint("prescriptions", __name__)
 @token_required("prescriptions")
 def index(user):
     if not user:
-        return "'user' is not found.", 404
+        return "'user' is not found.", 401
     elif not user[0]:
-        return "'uuid' of user is not found.", 404
+        return "'uuid' of user is not found.", 401
 
     if request.method == "GET":
         prescriptions = get_prescriptions(uuid=user[0])
@@ -54,9 +54,9 @@ def index(user):
 @token_required("delete_prescriptions")
 def delete(user):
     if not user:
-        return "'user' is not found.", 404
+        return "'user' is not found.", 401
     elif not user[0]:
-        return "'uuid' of user is not found.", 404
+        return "'uuid' of user is not found.", 401
 
     if request.method == "POST":
         prescription_id = request.get_json()["prescription_id"]
@@ -76,9 +76,9 @@ def delete(user):
 @token_required("upload_image")
 def upload(user):
     if not user:
-        return "'user' is not found.", 404
+        return "'user' is not found.", 401
     elif not user[0]:
-        return "'uuid' of user is not found.", 404
+        return "'uuid' of user is not found.", 401
 
     if request.method == "POST":
         print(request.files)
