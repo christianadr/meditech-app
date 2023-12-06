@@ -6,8 +6,8 @@ import LandingPage from "./views/LandingPage.js";
 import Dashboard from "./views/Dashboard.js";
 import Login from "./views/Login.js";
 import Registration from "./views/Registration.js";
-import CameraPreview from "./views/_CameraPreview.js";
 import AddingPrescription from "./views/AddPrescription.js";
+import UpdatingPrescription from "./views/UpdatePrescription.js";
 
 const Stack = createNativeStackNavigator();
 
@@ -45,13 +45,13 @@ const App = () => {
                     options={{ headerShown: false }}
                 />
                 <Stack.Screen
-                    name="CameraPreview"
-                    component={CameraPreview}
+                    name="AddPrescription"
+                    component={AddingPrescription}
                     options={{ headerShown: false }}
                 />
                 <Stack.Screen
-                    name="AddPrescription"
-                    component={AddingPrescription}
+                    name="UpdatePrescription"
+                    component={UpdatingPrescription}
                     options={{ headerShown: false }}
                 />
             </Stack.Navigator>

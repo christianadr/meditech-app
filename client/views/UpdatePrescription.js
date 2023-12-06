@@ -11,14 +11,15 @@ import TextInputComponent from "../components/TextInputs/TextInputComponent";
 import { SERVER_URL } from "../Globals";
 import { getValueFor } from "../utils/storage";
 
-export default function AddingPrescription({ navigation, route }) {
+export default function UpdatingPrescription({ navigation, route }) {
+    const [id, onChangeId] = useState("");
     const [name, onChangeName] = useState("");
     const [dosage, onChangeDosage] = useState("");
     const [instruction, onChangeInstruction] = useState("");
 
     const navigateToDashboard = async () => {
         // console.log("Get Started Clicked..."); // debug purposes
-        await sendToBackend(name, dosage, instruction);
+        await sendToBackend(id, name, dosage, instruction);
         navigation.reset({
             index: 0,
             routes: [{ name: "Dashboard" }],
@@ -27,11 +28,13 @@ export default function AddingPrescription({ navigation, route }) {
 
     /**
      * This sends that passed arguments to the backend server.
+     * @param {*} medicine_id
      * @param {*} medicine_name
      * @param {*} medicine_dosage
      * @param {*} medicine_instruction
      */
     const sendToBackend = async (
+        medicine_id,
         medicine_name,
         medicine_dosage,
         medicine_instruction
@@ -40,7 +43,7 @@ export default function AddingPrescription({ navigation, route }) {
         try {
             // Sends prescription to the backend
             const response = await fetch(url, {
-                method: "POST",
+                method: "PUT",
                 headers: {
                     "Content-Type": "application/json",
                     Authorization: `Bearer ${await getValueFor(
@@ -48,6 +51,7 @@ export default function AddingPrescription({ navigation, route }) {
                     )}`,
                 },
                 body: JSON.stringify({
+                    prescription_id: medicine_id,
                     medication: medicine_name,
                     dosage: medicine_dosage,
                     instruction: medicine_instruction,
@@ -55,28 +59,36 @@ export default function AddingPrescription({ navigation, route }) {
             });
 
             if (response.ok) {
-                alert("Prescription added.");
+                alert("Update prescription successful.");
             }
         } catch (err) {
-            alert(`Error adding prescription: ${err.message}`);
+            alert(`Error updating prescription: ${err.message}`);
         }
     };
 
     useEffect(() => {
         // If received any inferences, it will update corresponding text input
-        const medicine_name = route.params?.data?.medicine_name;
+        console.log(route.params);
+
+        const medicine_id = route.params?.id;
+        if (medicine_id) onChangeId(medicine_id);
+
+        const medicine_name = route.params?.medication;
         if (medicine_name) onChangeName(medicine_name);
 
-        const medicine_dosage = route.params?.data?.medicine_dosage;
+        const medicine_dosage = route.params?.dosage;
         if (medicine_dosage) onChangeDosage(medicine_dosage);
 
-        const medicine_instruction = route.params?.data?.medicine_instruction;
+        const medicine_instruction = route.params?.instruction;
         if (medicine_instruction) onChangeInstruction(medicine_instruction);
 
-        if (!medicine_name && !medicine_dosage && !medicine_instruction)
-            alert(
-                "Cannot extract information from prescription. Switching to manual input."
-            );
+        if (
+            !medicine_name &&
+            !medicine_dosage &&
+            !medicine_instruction &&
+            !medicine_id
+        )
+            alert("No information extracted.");
     }, []);
 
     return (
@@ -110,7 +122,7 @@ export default function AddingPrescription({ navigation, route }) {
                         { backgroundColor: colors.primary },
                     ]}
                 >
-                    <Text style={styles.buttonText}>ADD PRESCRIPTION</Text>
+                    <Text style={styles.buttonText}>UPDATE PRESCRIPTION</Text>
                 </View>
             </TouchableOpacity>
         </SafeAreaView>
